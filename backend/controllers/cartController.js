@@ -43,10 +43,18 @@ const getall = async (req, res) => {
   try {
     const cart = await Cart.findOne().populate('items.product');
     if (!cart) return res.status(200).json({ items: [] });
-    res.status(200).json(cart);
+
+    // Map items to return only product info + quantity
+    const productsInCart = cart.items.map(item => ({
+      product: item.product,  // populated product object
+      quantity: item.quantity,
+    }));
+
+    res.status(200).json(productsInCart);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 module.exports = { addToCart, getall };
