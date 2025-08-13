@@ -8,7 +8,7 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/products");
+        const res = await axios.get("https://planet-coki.onrender.com/api/products");
         setProducts(res.data);
       } catch (err) {
         console.error(err);
@@ -19,36 +19,71 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-  if (loading) return <p className="text-center">Loading products...</p>;
+  if (loading) {
+    return (
+      <p
+        className="text-center mt-5 fw-bold"
+        style={{ fontSize: "1.5rem", color: "#555" }}
+      >
+        Loading products...
+      </p>
+    );
+  }
 
-return (
-  <div className="p-6 max-w-7xl mx-auto">
-    <h1 className="text-3xl font-extrabold mb-8 text-center text-gray-900">
-      Our Products
-    </h1>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      {products.map((product) => (
-        <div
-          key={product._id}
-          className="border border-gray-200 rounded-lg shadow-lg p-6 flex flex-col"
-        >
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-56 object-cover rounded-md transition-transform duration-300 hover:scale-105"
-          />
-          <h2 className="text-xl font-semibold mt-5 text-gray-800">{product.name}</h2>
-          <p className="text-gray-600 mt-2 text-lg font-medium">₹{product.price}</p>
-          <button
-            className="mt-auto mt-6 px-5 py-3 bg-green-600 text-white font-semibold rounded-md shadow-md
-                       hover:bg-green-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+  return (
+    <div
+      className="container my-5"
+      style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}
+    >
+      <h1 className="fw-bold mb-5 text-center" style={{ color: "#ffc107" }}>
+        Our Products
+      </h1>
+
+      <div className="row g-4 justify-content-center">
+        {products.map((product) => (
+          <div
+            key={product._id}
+            className="col-12 col-sm-6 col-md-4 d-flex justify-content-center"
           >
-            Add to Cart
-          </button>
-        </div>
-      ))}
+            <div
+              className="card shadow-sm h-100"
+              style={{
+                width: "100%",
+                maxWidth: "300px",
+                border: "1px solid #dee2e6",
+                textAlign: "center",
+              }}
+            >
+              <div className="card-body d-flex flex-column align-items-center justify-content-center">
+                <h5
+                  className="card-title fw-bold"
+                  style={{ color: "#0d6efd" }}
+                >
+                  {product.name}
+                </h5>
+                <p
+                  className="card-text"
+                  style={{ color: "#6c757d", fontSize: "1.1rem" }}
+                >
+                  ₹{product.price}
+                </p>
+                <button
+                  className="btn btn-success mt-auto"
+                  style={{
+                    padding: "8px 16px",
+                    fontWeight: "500",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
-}
-export default Products
+  );
+};
+
+export default Products;
